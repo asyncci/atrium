@@ -1,0 +1,12 @@
+
+<header>
+  <a th:href="@{/pages/home}"> home </a>
+  <span th:if="${profile == null}">
+    <a th:href="@{/pages/register}"> register </a>
+    <a th:href="@{/pages/login}"> login </a>
+  </span>
+  <span th:if="${profile != null}">
+    <a th:href="@{/pages/profile}"> profile </a>
+    <a th:href="@{/pages/logout}"> logout </a>
+  </span>
+</header>

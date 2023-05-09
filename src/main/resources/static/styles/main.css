@@ -1,0 +1,68 @@
+.log{
+    margin: 10px;
+    padding: 10px;
+    width: 50%;
+}
+
+.bordered {
+    border-radius: 10px;
+    border: 2px dashed;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    width: 50%;
+}
+
+.error.display-err {
+    color: red;
+}
+
+.error.display-success{
+    color: green;
+}
+
+.forward{
+    z-index: 10;
+}
+
+.popup{
+    text-align: center;
+}
+
+.modala {
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: -120px;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+
+    animation: 4s fadeIn;
+    animation-fill-mode: forwards;
+
+    pointer-events: none ;
+}
+
+/* Modal Content/Box */
+.modala-content {
+    border-radius: 7px;
+    background-color: #ff7453;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    width: 40%; /* Could be more or less, depending on screen size */
+}
+
+@keyframes fadeIn {
+    40% {
+        opacity: 100%;
+    }
+    100% {
+        opacity: 0%;
+    }
+}
