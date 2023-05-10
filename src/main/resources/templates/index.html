@@ -10,16 +10,53 @@
 </head>
 <body>
 
-    <div id="alerta" class="modala forward" th:if="${status != null}">
-        <div class="modala-content">
-            <p>[[${status.getStatusCode()}]]</p>
-        </div>
-    </div>
-
     <div th:replace="fragments/navigation.html :: header">
         Header
     </div>
     <h1 class="log"> Atrium </h1>
+
+    <div th:replace="fragments/status :: div">
+        status
+    </div>
+
+
+    <div style="width: 60%" th:if="${profile != null}">
+        <form action="#" method="post"
+              th:action="@{/pages/addTopic}"
+              th:object="${newTopic}"
+        >
+                <label for="title" class="form-label">Topic title</label>
+                <input type="text" class="form-control"
+                       id="title" placeholder="rights." th:field="*{title}">
+                <label for="argumentArea" class="form-label"> Your agrument </label>
+                <textarea class="form-control"
+                          id="argumentArea" rows="3" th:field="*{argument}"></textarea>
+
+            <input type="submit" class="btn btn-primary mb-3" name="topic-submit" value="Start topic">
+        </form>
+    </div>
+
+    <table>
+        <thead>
+        </thead>
+        <tbody>
+        <tr th:if="${topics.empty}">
+            <p>There is no topics </p>
+        </tr>
+
+        <tr th:if="${createdTopic != null}">
+            <td><span > You've created topic ! </span> </td>
+            <td><span th:text="${createdTopic.title}"> Title </span></td>
+            <td><span th:text="${createdTopic.argument}"> Argument </span></td>
+        </tr>
+
+        <tr th:each="topic : ${topics}">
+            <td><span th:text="${topic.user.name}"> <a th:href="@{/pages/users/} + ${topic.user.id}"> User</a> </span> </td>
+            <td><span th:text="${topic.title}"> Title </span></td>
+            <td><span th:text="${topic.argument}"> Argument </span></td>
+        </tr>
+        </tbody>
+    </table>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>

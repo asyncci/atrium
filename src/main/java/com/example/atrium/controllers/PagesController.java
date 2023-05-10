@@ -6,6 +6,7 @@ import com.example.atrium.models.User;
 import com.example.atrium.models.nondb.Login;
 import com.example.atrium.models.nondb.LoginForm;
 import com.example.atrium.models.nondb.RegisterForm;
+import com.example.atrium.models.nondb.TopicForm;
 import com.example.atrium.workers.interfaces.Authentication;
 import com.example.atrium.workers.interfaces.SessionTracker;
 import com.example.atrium.workers.interfaces.TopicsTracker;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,11 +40,34 @@ public class PagesController {
     public String home(Model model, HttpServletRequest request){
 
         ResponseEntity<User> status = sessionTracker.isSessionGoing(request.getRemoteAddr());
+        ResponseEntity<List<Topic>> topics = topicsTracker.topTopics();
 
         if(status.getStatusCode().equals(HttpStatus.OK))
             model.addAttribute("profile",status.getBody());
 
+        model.addAttribute("topics",topics.getBody());
+        model.addAttribute("newTopic",new TopicForm());
+
         return "index";
+    }
+
+    @PostMapping("/addTopic")
+    public String newTopic(HttpServletRequest request, @ModelAttribute("newTopic") TopicForm topic, RedirectAttributes redirectAttributes){
+
+        ResponseEntity<User> status = sessionTracker.isSessionGoing(request.getRemoteAddr());
+
+        if(status.getStatusCode().equals(HttpStatus.OK))
+        {
+            if(topic.getTitle().equals("") || topic.getArgument().equals("")){
+                redirectAttributes.addFlashAttribute("status",HttpStatus.NOT_ACCEPTABLE);
+                return "redirect:home";
+            }
+
+            Topic nTopic = topicsTracker.addTopic(new Topic(status.getBody(),topic.getTitle(),topic.getArgument()));
+            redirectAttributes.addFlashAttribute("createdTopic",nTopic);
+        }
+
+        return "redirect:home";
     }
 
     @GetMapping("/profile")
@@ -63,7 +88,7 @@ public class PagesController {
     @GetMapping("/logout")
     public String logout(Model model, HttpServletRequest request){
         ResponseEntity<HttpStatus> status = controller.logout(request.getRemoteAddr());
-        model.addAttribute("status",status);
+        model.addAttribute("status",status.getStatusCode());
         return "redirect:home";
     }
 
@@ -78,7 +103,7 @@ public class PagesController {
         String ipAddress = request.getRemoteAddr();
         ResponseEntity<HttpStatus> status = controller.login(ipAddress,new Login(loginForm.getEmail(), loginForm.getPassword()));
 
-        model.addAttribute("status", status);
+        model.addAttribute("status", status.getStatusCode());
 
         if(status.getStatusCode().equals(HttpStatus.NOT_FOUND) || status.getStatusCode().equals(HttpStatus.UNAUTHORIZED) || status.getStatusCode().equals(HttpStatus.INTERNAL_SERVER_ERROR))
             return "login";

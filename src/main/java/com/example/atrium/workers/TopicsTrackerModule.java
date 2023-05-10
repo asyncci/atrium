@@ -24,8 +24,24 @@ public class TopicsTrackerModule implements TopicsTracker {
         topicRepository.findByUser(user).forEach(topics::add);
 
         if(topics.isEmpty())
-            return new ResponseEntity<>(topics,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(topics,HttpStatus.NO_CONTENT);
 
         return new ResponseEntity<>(topics, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Topic>> topTopics(){
+        List<Topic> topics = new ArrayList<>();
+
+        topicRepository.findByOrderByAgreedDesc().forEach(topics::add);
+
+        if(topics.isEmpty())
+            return new ResponseEntity<>(topics, HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<>(topics,HttpStatus.OK);
+    }
+
+    public Topic addTopic(Topic topic){
+        Topic newTopic = topicRepository.save(topic);
+        return newTopic;
     }
 }
