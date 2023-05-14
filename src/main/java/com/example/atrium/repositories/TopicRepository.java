@@ -11,5 +11,4 @@ import java.util.List;
 @Repository
 public interface TopicRepository extends JpaRepository<Topic,Long> {
     List<Topic> findByUser(User user);
-    List<Topic> findByOrderByAgreedDesc();
 }
