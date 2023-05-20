@@ -16,12 +16,25 @@ public class Topic {
     @Column(length = 300)
     private String title;
 
+    @Column(length = 1000)
+    private String argument;
+
     public Topic(User user, String title, String argument) {
         this.user = user;
         this.title = title;
+        this.argument = argument;
     }
 
     public Topic(){
+    }
+
+
+    public String getArgument() {
+        return argument;
+    }
+
+    public void setArgument(String arument) {
+        this.argument = arument;
     }
 
     public String getTitle() {
