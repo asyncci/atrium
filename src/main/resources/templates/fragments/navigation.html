@@ -1,12 +1,21 @@
-
 <header>
-  <a th:href="@{/pages/home}"> home </a>
-  <span th:if="${profile == null}">
-    <a th:href="@{/pages/register}"> register </a>
-    <a th:href="@{/pages/login}"> login </a>
-  </span>
-  <span th:if="${profile != null}">
-    <a th:href="@{/pages/profile}"> profile </a>
-    <a th:href="@{/pages/logout}"> logout </a>
-  </span>
+    <nav class="content">
+        <div class="logo">
+            <a th:href="@{/pages/home}"><span>AT</span>RIUM
+                <img class="img" th:src="@{/img/little-logo.png}" src="../static/img/little-logo.png" width="45" height="45">
+            </a>
+        </div>
+
+        <div class="btn">
+            <div th:if="${profile == null}">
+                <a th:href="@{/pages/register}"> register </a>
+                <a th:href="@{/pages/login}"> login </a>
+            </div>
+            <div th:if="${profile != null}">
+                <a th:href="@{/pages/profile}" class="profile"> profile </a>
+                <a th:href="@{/pages/logout}" class="logout"> logout </a>
+            </div>
+        </div>
+
+    </nav>
 </header>
