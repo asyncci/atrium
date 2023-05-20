@@ -32,7 +32,7 @@ public class TopicsTrackerModule implements TopicsTracker {
     public ResponseEntity<List<Topic>> topTopics(){
         List<Topic> topics = new ArrayList<>();
 
-        topicRepository.findByOrderByAgreedDesc().forEach(topics::add);
+        topicRepository.findAll().forEach(topics::add);
 
         if(topics.isEmpty())
             return new ResponseEntity<>(topics, HttpStatus.NO_CONTENT);

@@ -19,14 +19,11 @@ public class Topic {
     @Column(length = 1500)
     private String argument;
 
-    @Column()
-    private int agreed;
 
     public Topic(User user, String title, String argument) {
         this.user = user;
         this.title = title;
         this.argument = argument;
-        this.agreed = 0;
     }
 
     public Topic(){
@@ -56,11 +53,5 @@ public class Topic {
         this.user = user;
     }
 
-    public int getAgreed() {
-        return agreed;
-    }
 
-    public void setAgreed(int agreed) {
-        this.agreed = agreed;
-    }
 }
